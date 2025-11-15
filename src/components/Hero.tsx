@@ -1,4 +1,4 @@
-import { ArrowRight, Mail, Phone, MapPin } from 'lucide-react';
+import { ArrowRight, Mail, MapPin } from 'lucide-react';
 import screenshot from '../assets/rotoraxislogo.jpg';
 
 export default function Hero() {

@@ -1,5 +1,6 @@
 import { Mail, Phone, MapPin, Send } from 'lucide-react';
 import { useState } from 'react';
+import emailjs from "@emailjs/browser";
 
 export default function Contact() {
   const [formData, setFormData] = useState({
@@ -11,10 +12,31 @@ export default function Contact() {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    const mailtoLink = `mailto:rotoraxisconsulting@gmail.com?subject=Inquiry from ${formData.name}&body=${encodeURIComponent(
-      `Name: ${formData.name}\nEmail: ${formData.email}\nService: ${formData.service}\n\nMessage:\n${formData.message}`
-    )}`;
-    window.location.href = mailtoLink;
+
+    emailjs.send(
+      "service_mvxrxyn",
+      "template_8a43lm4",
+      {
+        name: formData.name,
+        email: formData.email,
+        service: formData.service,
+        message: formData.message,
+      },
+      "z5WgKaDc2ZL4pFb6e"
+    )
+    .then(() => {
+      alert("Your message has been sent successfully!");
+      setFormData({
+        name: "",
+        email: "",
+        service: "tax",
+        message: ""
+      });
+    })
+    .catch((error) => {
+      console.error("EmailJS Error:", error);
+      alert("There was an error sending your message.");
+    });
   };
 
   return (
@@ -32,7 +54,7 @@ export default function Contact() {
           </div>
 
           <div className="grid md:grid-cols-2 gap-12 items-start">
-            {/* Sección combinada: Get in Touch + Quick Actions */}
+            {/* GET IN TOUCH */}
             <div className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-xl p-6">
               <h3 className="text-2xl font-bold mb-6">Get in Touch</h3>
 
@@ -71,6 +93,7 @@ export default function Contact() {
                   </div>
                 </div>
               </div>
+
               <div className="space-y-3">
                 <a
                   href="#tax-residency"
@@ -87,10 +110,11 @@ export default function Contact() {
               </div>
             </div>
 
-            {/* Formulario */}
+            {/* FORM */}
             <div className="bg-white/10 backdrop-blur-sm border border-white/20 rounded-2xl p-8">
               <h3 className="text-2xl font-bold mb-6">Send Us a Message</h3>
               <form onSubmit={handleSubmit} className="space-y-4">
+
                 <div>
                   <label className="block text-sm font-semibold mb-2">Name</label>
                   <input
@@ -154,7 +178,7 @@ export default function Contact() {
         </div>
       </section>
 
-      {/* Botón flotante de WhatsApp */}
+      {/* WhatsApp Floating Button */}
       <a
         href="https://wa.me/+971524087059"
         target="_blank"
